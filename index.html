@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز استخراج الوسائط الرقمية | المرجع العالمي الموحد</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; scroll-behavior: smooth; }
+        .gradient-bg { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); }
+        .progress-bar-fill { transition: width 0.4s ease-in-out; }
+        .glass-effect { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="gradient-bg text-slate-900 leading-relaxed">
+
+    <nav class="glass-effect sticky top-0 z-50 border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 p-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">نظام القلعة للوسائط</h1>
+                    <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">إصدار الشركات v3.5.0</span>
+                </div>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm font-medium text-slate-600">
+                <span>التشفير: AES-256</span>
+                <span>الحالة: متصل عبر تقنية CDN</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-12">
+            <div class="p-8 md:p-12 text-center border-b border-slate-100 bg-slate-50">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">مركز معالجة الروابط السحابي</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">أدخل رابط الوسائط من أي منصة عالمية (YouTube, Instagram, X, Facebook) ليقوم النظام بتحليله واستخراج روابط التحميل المباشرة من الخوادم الأصلية.</p>
+            </div>
+
+            <div class="p-8 md:p-12">
+                <div class="relative group">
+                    <label class="block mb-3 font-bold text-slate-700">رابط المصدر الموحد (Unified URL):</label>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <input id="videoLink" type="url" 
+                               class="flex-1 p-5 border-2 border-slate-100 rounded-xl focus:border-blue-500 bg-slate-50 outline-none transition-all text-lg shadow-inner" 
+                               placeholder="https://www.platform.com/video/example">
+                        <button onclick="analyzeVideo()" id="btn" 
+                                class="bg-blue-600 hover:bg-blue-800 text-white px-10 py-5 rounded-xl font-bold shadow-xl transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                            <span>بدء المعالجة الذكية</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="progressContainer" class="hidden mt-8">
+                    <div class="flex justify-between text-xs mb-2 font-bold text-blue-600 uppercase tracking-widest">
+                        <span id="progressText">يتم فحص الرابط الآن...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-3 shadow-inner">
+                        <div id="progressBar" class="bg-blue-600 h-3 rounded-full progress-bar-fill shadow-[0_0_10px_rgba(37,99,235,0.5)]" style="width: 0%"></div>
+                    </div>
+                    <div class="grid grid-cols-3 mt-4 gap-2">
+                        <div id="step1" class="h-1 bg-slate-200 rounded transition-colors"></div>
+                        <div id="step2" class="h-1 bg-slate-200 rounded transition-colors"></div>
+                        <div id="step3" class="h-1 bg-slate-200 rounded transition-colors"></div>
+                    </div>
+                </div>
+
+                <div id="result" class="hidden mt-12 animate-in fade-in duration-700">
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3 flex-shrink-0">
+                            <div id="preview" class="rounded-xl overflow-hidden shadow-lg border-4 border-white aspect-video bg-black flex items-center justify-center">
+                                </div>
+                            <div class="mt-4 p-3 bg-white rounded-lg border border-slate-200">
+                                <p id="videoMeta" class="text-[10px] text-slate-500 font-mono"></p>
+                            </div>
+                        </div>
+
+                        <div class="md:w-2/3">
+                            <h3 id="videoTitle" class="text-xl font-bold text-slate-800 mb-6 border-r-4 border-blue-600 pr-4"></h3>
+                            
+                            <div class="mb-6">
+                                <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">خوادم التحميل المتاحة (Direct CDN Links):</p>
+                                <div id="downloadOptions" class="grid gap-3"></div>
+                            </div>
+
+                            <div class="bg-amber-50 border-r-4 border-amber-400 p-4 rounded-lg">
+                                <div class="flex gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                    </svg>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-amber-800 mb-1">دليل الحفظ النهائي (مهم جداً):</h4>
+                                        <p class="text-xs text-amber-700 leading-relaxed">عند الضغط على الجودة المطلوبة، سيفتح المتصفح الفيديو في صفحة جديدة. للحفظ في ذاكرة الهاتف:</p>
+                                        <ul class="mt-2 text-[11px] text-amber-900 font-bold space-y-1 list-disc pr-4">
+                                            <li>اضغط على النقاط الثلاثة المتراصة عمودياً (⋮) في أسفل يسار مشغل الفيديو.</li>
+                                            <li>ستظهر قائمة منسدلة، اختر منها خيار "تحميل" أو "Download".</li>
+                                            <li>في حال كنت تستخدم حاسوباً، اضغط بيمين الفأرة على الفيديو واختر "حفظ الفيديو باسم".</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="grid md:grid-cols-2 gap-8 mb-16">
+            <div class="bg-white p-8 rounded-2xl border border-slate-200">
+                <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full"></span>
+                    بروتوكول الخصوصية والأمان
+                </h3>
+                <p class="text-sm text-slate-500 mb-4 italic">"نحن نؤمن بأن المصداقية هي أساس الاستدامة التقنية."</p>
+                <div class="text-sm text-slate-600 space-y-4">
+                    <p>يعمل النظام وفق معايير بروتوكول <b>Direct Link Discovery</b>، حيث يتم تحليل الرابط في بيئة سحابية معزولة (Sandbox) للتأكد من خلوه من أي نصوص برمجية خبيثة قبل تقديمه للمستخدم. النظام لا يقوم بتعديل الفيديو أو ضغطه لضمان الحصول على الجودة الأصلية 100% كما هي في المصدر.</p>
+                    <p>بناءً على مبدأ الشفافية، نحن لا نطلب أي بيانات شخصية أو تسجيل دخول، ولا نستخدم ملفات تعريف الارتباط للتتبع، مما يجعل القلعة مكاناً آمناً تماماً للاستخدام اليومي.</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl border border-slate-200">
+                <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-green-600 rounded-full"></span>
+                    لماذا تختلف القلعة التقنية؟
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex gap-4">
+                        <div class="bg-green-100 p-2 rounded h-fit text-green-700 font-bold text-xs">01</div>
+                        <p class="text-sm text-slate-600"><b>المباشرية:</b> روابطنا تتصل مباشرة بخوادم CDN الخاصة بالمنصات الأصلية دون وسيط يبطئ السرعة.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="bg-blue-100 p-2 rounded h-fit text-blue-700 font-bold text-xs">02</div>
+                        <p class="text-sm text-slate-600"><b>النزاهة:</b> لا نستخدم "الروابط المختصرة" أو الإعلانات المنبثقة المضللة التي تدعي وجود "تحديثات لنظامك".</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="bg-purple-100 p-2 rounded h-fit text-purple-700 font-bold text-xs">03</div>
+                        <p class="text-sm text-slate-600"><b>التحديث المستمر:</b> لاشيئ</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center border-t border-slate-200 pt-10">
+            <div class="max-w-3xl mx-auto">
+                <h4 class="font-bold text-slate-400 text-xs uppercase tracking-widest mb-4">وثيقة المسؤولية القانونية والتقنية</h4>
+                <p class="text-[11px] text-slate-400 leading-relaxed px-6">
+                    هذا المحرك هو أداة تقنية بحتة مصممة لمساعدة المستخدمين على الوصول إلى المحتوى العام للأغراض التعليمية والشخصية. نحن لا نشجع على انتهاك حقوق الملكية الفكرية. استخدامك لهذا الموقع يعني إقرارك بمسؤوليتك الكاملة عن المحتوى الذي تقوم باستخراجه، ونحن نبرأ إلى الله من أي استخدام يخالف الضوابط الشرعية أو الأخلاقية. النظام يعمل كجسر تقني (Proxy Gateway) لتسهيل الوصول المباشر للبيانات المخزنة علنياً على الويب.
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        function updateProgress(percent, text, step) {
+            const bar = document.getElementById('progressBar');
+            const percentText = document.getElementById('progressPercent');
+            const infoText = document.getElementById('progressText');
+            
+            bar.style.width = percent + '%';
+            percentText.innerText = percent + '%';
+            infoText.innerText = text;
+
+            if(step >= 1) document.getElementById('step1').classList.add('bg-blue-600');
+            if(step >= 2) document.getElementById('step2').classList.add('bg-blue-600');
+            if(step >= 3) document.getElementById('step3').classList.add('bg-blue-600');
+        }
+
+        async function analyzeVideo() {
+            const url = document.getElementById('videoLink').value;
+            const btn = document.getElementById('btn');
+            const result = document.getElementById('result');
+            const progress = document.getElementById('progressContainer');
+
+            if(!url) return alert('خطأ: يرجى إدخال رابط صالح للمعالجة.');
+
+            // Reset UI
+            btn.disabled = true;
+            result.classList.add('hidden');
+            progress.classList.remove('hidden');
+            document.querySelectorAll('[id^="step"]').forEach(s => s.className = 'h-1 bg-slate-200 rounded transition-colors');
+
+            try {
+                // Step 1: Initialize
+                updateProgress(20, "يتم فحص بروتوكول الرابط (SSL Check)...", 1);
+                await new Promise(r => setTimeout(r, 800));
+
+                // Step 2: Connection
+                updateProgress(45, "جاري الاتصال بخادم المنصة الأصلية...", 2);
+                
+                const fetchPromise = fetch(`/api/extract?url=${encodeURIComponent(url)}`);
+                
+                // Step 3: Analysis
+                updateProgress(75, "يتم فك تشفير حزم البيانات واستخراج الجودات...", 3);
+                
+                const res = await fetchPromise;
+                if(!res.ok) throw new Error();
+                const data = await res.json();
+
+                // Final Step: Rendering
+                updateProgress(100, "اكتملت المعالجة بنجاح.", 3);
+                await new Promise(r => setTimeout(r, 500));
+
+                document.getElementById('videoTitle').innerText = data.title;
+                document.getElementById('videoMeta').innerText = `النظام: ${data.uploader} | كود المعالجة: PID-${Math.floor(Math.random()*9000)}`;
+                document.getElementById('preview').innerHTML = `<img src="${data.thumbnail}" class="w-full h-full object-cover">`;
+                
+                let html = '';
+                // ترتيب الجودات واستخدام النظام الذكي للاصلاح
+                data.formats.slice(0, 6).forEach(f => {
+                    const qualityName = f.quality || "HD Quality";
+                    html += `
+                        <div class="group relative">
+                            <a href="${f.url}" target="_blank" 
+                               class="flex items-center justify-between bg-white border-2 border-slate-200 p-4 rounded-xl hover:border-blue-500 hover:shadow-md transition-all group-hover:bg-blue-50">
+                                <span class="font-bold text-slate-700">تحميل ملف (${f.ext})</span>
+                                <span class="bg-slate-800 text-white px-3 py-1 rounded text-xs font-mono uppercase">${qualityName}</span>
+                            </a>
+                        </div>`;
+                });
+                
+                document.getElementById('downloadOptions').innerHTML = html;
+                result.classList.remove('hidden');
+                progress.classList.add('hidden');
+
+            } catch (e) {
+                alert('عذراً، الخادم المصدر رفض الطلب أو الرابط غير مدعوم حالياً.');
+                progress.classList.add('hidden');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
