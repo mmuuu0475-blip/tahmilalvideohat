@@ -1,0 +1,15 @@
+{
+  "name": "media-fortress",
+  "version": "2.0.0",
+  "description": "نظام استخراج الوسائط العالمي",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "yt-dlp-exec": "^1.0.1"
+  }
+}
